@@ -1,7 +1,12 @@
-import Image from "next/image";
+
+import Banner from "./components/home/Banner";
+import Category from "./components/home/Category";
 
 export default function Home() {
   return (
-   <div>Ana Ekran</div>
+   <div>
+    <Category/>
+    <Banner/>
+   </div>
   );
 }

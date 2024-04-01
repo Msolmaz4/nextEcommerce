@@ -1,8 +1,11 @@
 import React from 'react'
-
+import { GiHamburgerMenu } from "react-icons/gi";
 const HamburgerMenu = () => {
   return (
-    <div>HamburgerMenu</div>
+    <div className='relative md:hidden'>
+        
+        
+        <GiHamburgerMenu size={24}/></div>
   )
 }
 
