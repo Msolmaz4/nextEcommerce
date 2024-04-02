@@ -1,12 +1,14 @@
 "use client"
 import { CardProductProps } from "@/app/components/Detail/Details";
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
+import toast from "react-hot-toast";
 
 
 interface  CartContextProps {
     productCartQty:number
     cartPrd:CardProductProps[] | null
     addToBasket:(product:CardProductProps)=>void;
+    deleteToBasket:(product:CardProductProps)=>void;
 }
 
 const  CartContext = createContext<CartContextProps | null>(null)
@@ -33,14 +35,18 @@ export const CartContexProvider= (props:Props) =>{
                 updateCart=[product]
             }
             localStorage.setItem("cart",JSON.stringify(updateCart))
+            toast.success('Successfully basket')
             return updateCart
         })
     },[cartPrd])
+
+    const deleteToBasket = useCallback((product:CardProductProps)=>{},[])
 
     let value ={
         productCartQty,
         addToBasket,
         cartPrd,
+        deleteToBasket,
     }
     return (
         <CartContext.Provider value={value} {...props}></CartContext.Provider>
