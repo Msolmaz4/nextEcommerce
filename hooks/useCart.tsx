@@ -1,6 +1,6 @@
 "use client"
 import { CardProductProps } from "@/app/components/Detail/Details";
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 
 
 interface  CartContextProps {
@@ -17,6 +17,12 @@ interface Props {
 export const CartContexProvider= (props:Props) =>{
     const [productCartQty,setProductCartQty] = useState(0)
     const [cartPrd,setCartPrd] = useState<CardProductProps[] | null>()
+    //localstorg yukledikce sonra acilirken datayi cekiyorum
+    useEffect(()=>{
+        let getItem : any = localStorage.getItem("cart")
+        let getItemParse :CardProductProps[] | null = JSON.parse(getItem)
+        setCartPrd(getItemParse)
+    },[])
     
     const addToBasket = useCallback((product:CardProductProps)=>{
         setCartPrd(prev=>{
@@ -26,6 +32,7 @@ export const CartContexProvider= (props:Props) =>{
             }else{
                 updateCart=[product]
             }
+            localStorage.setItem("cart",JSON.stringify(updateCart))
             return updateCart
         })
     },[cartPrd])
