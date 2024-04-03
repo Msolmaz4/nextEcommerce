@@ -9,6 +9,9 @@ interface  CartContextProps {
     cartPrd:CardProductProps[] | null
     addToBasket:(product:CardProductProps)=>void;
     deleteToBasket:(product:CardProductProps)=>void;
+    removeAll:()=>void
+    addToBasketIncer:(product:CardProductProps)=>void;
+    deleteBasketDes:(product:CardProductProps)=>void;
 }
 
 const  CartContext = createContext<CartContextProps | null>(null)
@@ -40,13 +43,67 @@ export const CartContexProvider= (props:Props) =>{
         })
     },[cartPrd])
 
-    const deleteToBasket = useCallback((product:CardProductProps)=>{},[])
+    const deleteToBasket = useCallback((product:CardProductProps)=>{
+        if(cartPrd){
+            const filterData = cartPrd?.filter(cart =>cart.id !== product.id)
+            setCartPrd(filterData)
+            localStorage.setItem("cart",JSON.stringify(filterData))
+            toast('deleted', {
+                icon: '👏',
+              })
+        }
+    },[cartPrd])
+
+
+    const removeAll = useCallback(()=>{
+        setCartPrd(null) 
+        localStorage.setItem("cart",JSON.stringify(null))
+    },[])
+
+
+//burda ben cartclinete ekleme ve cikarmda degisikligi kontrol edecegim
+ const addToBasketIncer= useCallback((product:CardProductProps)=>{
+  let updateCart;
+  if(product.quantity == 10) {
+    return toast.error("leider kanst du nichr extra hinzufugen")
+  }
+  //burda icinde varmi sonra indexliyorum
+  updateCart = [...cartPrd]
+  const existItem = cartPrd?.findIndex(item => item.id == product.id);
+  if (existItem > -1){
+    updateCart[existItem].quantity  = ++updateCart[existItem].quantity
+  }
+  setCartPrd(updateCart)
+  localStorage.setItem("cart",JSON.stringify(updateCart))
+ },[cartPrd])
+
+
+ const deleteBasketDes= useCallback((product:CardProductProps)=>{
+    let updateCart;
+    if(product.quantity == 1) {
+      return toast.error("leider kanst du nichr extra weg")
+    }
+    //burda icinde varmi sonra indexliyorum
+    updateCart = [...cartPrd]
+    const existItem = cartPrd?.findIndex(item => item.id == product.id);
+    if (existItem > -1){
+      updateCart[existItem].quantity  = --updateCart[existItem].quantity
+    }
+    setCartPrd(updateCart)
+    localStorage.setItem("cart",JSON.stringify(updateCart))
+   },[cartPrd])
+
+
+
 
     let value ={
         productCartQty,
         addToBasket,
         cartPrd,
         deleteToBasket,
+        removeAll,
+        addToBasketIncer,
+        deleteBasketDes
     }
     return (
         <CartContext.Provider value={value} {...props}></CartContext.Provider>
