@@ -4,20 +4,45 @@ import React from "react";
 import AuthContainer from "../Container/AuthContanier";
 import Heading from "../general/Heading";
 import Input from "../general/Input";
-import { error } from "console";
+
 import Button from "../general/Button";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { FaGoogleDrive } from "react-icons/fa";
 import Link from "next/link";
+import axios from "axios"
+import toast from "react-hot-toast";
+import {signIn} from "next-auth/react"
+import { useRouter } from "next/navigation";
 
 const RegisterClient = () => {
+    const router = useRouter()
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<FieldValues>();
-  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    axios.post("/api/register",data).then(()=>{
+        toast.success("register OKEY")
+        //burda bir sigin olayi olusturmak gerekiyor
+        signIn("credentials",{
+            email:data.email,
+            password:data.password ,
+            redirect:false}).then((callback)=>{
+                if(callback?.ok){
+                    router.push("/")
+                    router.refresh()
+                    toast.success("login okey")
+                }
+                if(callback?.error){
+                    toast.error(callback.error)
+                }
+            })
+    }).catch((err)=>{
+      console.log(err,"dddddddddddddddddd");
+    })
+  };
 
   return (
     <AuthContainer>

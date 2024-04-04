@@ -21,8 +21,8 @@ model Account {
   scope              String?
   id_token           String?  @db.String
   session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//burda  references: [user_id] duye.teme yaptim 
+  user User @relation(fields: [userId], references: [user_id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -46,3 +46,5 @@ enum Role{
     USER
     ADMIN
 }
+//npx prisma db push  ayarlamalardan sonra bunu yap 
+//bunu yaptikatan sonra doc kullandim ahayta aldin arastirdim https://next-auth.js.org/v3/adapters/prisma bu adreskdi doc kulln bundan sonra
