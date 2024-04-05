@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 //burda duyenleme icin bubnu cairdim
 import AuthContainer from "../Container/AuthContanier";
 import Heading from "../general/Heading";
@@ -12,8 +12,16 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { User } from "@prisma/client";
+import { cookies } from "next/headers";
 
-const LoginClient = () => {
+interface LoginProps {
+  currentUser :User |null |undefined
+}
+
+
+
+const LoginClient:React.FC<LoginProps> = ({currentUser}) => {
     const router = useRouter()
   const {
     register,
@@ -35,7 +43,18 @@ const LoginClient = () => {
             }
         })
   };
-
+    
+  useEffect(()=>{
+    if(currentUser){
+      router.push('/')
+      router.refresh()
+    }
+  },[])
+  const derleme = ()=>{
+    signIn("google")
+    
+  }
+   
   return (
     <AuthContainer>
       <div className="w-full md:w-[500px] p-3 shadow-lg rounded-md">
@@ -61,10 +80,10 @@ const LoginClient = () => {
         <Link href="/register" className="underline">Sign In</Link>
         <div className="text-center my-2 font-bold text-lg">OR</div>
         <Button
-          text="Google gogin"
+          text="Google login"
           outline
-        
-          icon={FaGoogleDrive}
+          onClick={derleme}
+          icon={FaGoogleDrive} 
         />
       </div>
     </AuthContainer>

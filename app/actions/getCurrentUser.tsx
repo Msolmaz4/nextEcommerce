@@ -28,7 +28,7 @@ export async function getCurrentUser(){
             updatedAt:currentUser.updateAt.toISOString(),
             emailVerified:currentUser.emailVerified?.toISOString()
         }
-
+//sonra navbar cagirabil bakalim
     } catch (error) {
         return null
     }

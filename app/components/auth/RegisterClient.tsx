@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 //burda duyenleme icin bubnu cairdim
 import AuthContainer from "../Container/AuthContanier";
 import Heading from "../general/Heading";
@@ -13,8 +13,14 @@ import axios from "axios"
 import toast from "react-hot-toast";
 import {signIn} from "next-auth/react"
 import { useRouter } from "next/navigation";
+import { User } from "@prisma/client";
 
-const RegisterClient = () => {
+
+interface RegisterProps {
+  currentUser :User |null |undefined
+}
+
+const RegisterClient:React.FC<RegisterProps> = ({currentUser}) => {
     const router = useRouter()
   const {
     register,
@@ -43,6 +49,13 @@ const RegisterClient = () => {
       console.log(err,"dddddddddddddddddd");
     })
   };
+
+  useEffect(()=>{
+    if(currentUser){
+      router.push('/')
+      router.refresh()
+    }
+  },[])
 
   return (
     <AuthContainer>

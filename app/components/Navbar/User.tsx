@@ -1,8 +1,57 @@
-import React from 'react'
+"use client"
 
-const User = () => {
+import React, { useState } from 'react'
+import {User} from "@prisma/client"
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+interface UserProps {
+  currentUser :User |null |undefined
+}
+const User:React.FC<UserProps> = ({currentUser}) => {
+  console.log("currentUser",currentUser)
+  const [open,setOpen] = useState(false);
+  const router = useRouter()
+
+  const menuFunc = (text:string)=>{
+    if(text == "logout"){
+       setOpen(false)
+    signOut()
+    router.push("/login")
+    }else if(text=="register"){
+      setOpen(false)
+      router.push("/register")
+    }
+    else if(text=="login"){
+      setOpen(false)
+      router.push("/login")
+    }
+   
+  }
   return (
-    <div className='hidden md:flex'>User</div>
+    <div className='hidden md:flex relative'>
+      <div onClick={()=>setOpen(!open)}>
+        {currentUser ? currentUser.name : "User"}
+      </div>
+      {
+        open && (
+          <div className='absolute w-[200px] top-10 bg-white shadow-lg right-0 p-2 rounded-md'>
+            {
+              currentUser ? (
+                <div>
+                  <div className='text-slate-600'>Admin</div>
+                  <div className='text-slate-600' onClick={()=>menuFunc("logout")}>Logout</div>
+                </div>
+              ):(
+                <div>
+                  <div className='text-slate-600' onClick={()=>menuFunc("register")}> Register</div>
+                  <div className='text-slate-600' onClick={()=>menuFunc("login")}>Login</div>
+                </div>
+              )
+            }
+          </div>
+        )
+      }
+      </div>
   )
 }
 
