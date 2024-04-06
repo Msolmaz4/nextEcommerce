@@ -16,47 +16,52 @@ export const authOptions :AuthOptions={
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      //stackoverdan buldum hata verdi url ordaki hatayi kopyaladim
+      allowDangerousEmailAccountLinking: true,
     }),
     //bundan sonra buraya credentialProciver kurduk 
     //https://next-auth.js.org/providers/credentials
 
     CredentialsProvider({
-    
-      name: "Credentials",
-
+      name: "credentials",
       credentials: {
-        email: { label: "email", type: "email"},
-        password: { label: "Password", type: "password" }
+        email: { label: "email", type: "text"},
+        password: {  label: "password", type: "password" }
       },
       async authorize(credentials, req) {
         if(!credentials?.email || !credentials.password){
-          throw new Error("lEIDER Email und Password")
+          throw new Error('Gecersiz mail ya da parola...')
         }
         const user = await prisma.user.findUnique({
-          where:{
-            email:credentials.email
+          where: {
+            email: credentials.email
           }
         })
+
         if(!user || !user.hashedPassword){
-          throw new Error("lEIDER Email und Password")
+          throw new Error('Gecersiz mail ya da parola...')
         }
 
-        const comparePass = await  bcrypt.compare(credentials.password ,user.hashedPassword) 
-        if(!comparePass)throw new Error ("PASSWORD IS WRONG")
-        
-        return  user;
+        const comparePassword = await bcrypt.compare(credentials.password, user.hashedPassword)
+
+        if(!comparePassword){
+          throw new Error('Yanlıs parola...')
+        }
+
+        return user
+
       }
-    })      
+    })
+    
   ],
-  //burda sonradan atarkair
-pages:{
-  signIn:"/login",
-},
-debug:process.env.NODE_ENV === "development",
-session:{
-  strategy:"jwt"
-},
-secret:process.env.NEXTAUTH_SECRET
+  pages : {
+    signIn: "/login"
+  },
+  debug: process.env.NODE_ENV === "development",
+  session: {
+    strategy: "jwt"
+  },
+  secret:process.env.NEXTAUTH_SECRET
 }
 //doc https://next-auth.js.org/configuration/nextjs#getserversession
 export default NextAuth(authOptions)

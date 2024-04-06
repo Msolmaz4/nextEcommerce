@@ -52,6 +52,7 @@ const LoginClient:React.FC<LoginProps> = ({currentUser}) => {
   },[])
   const derleme = ()=>{
     signIn("google")
+    router.push("/")
     
   }
    

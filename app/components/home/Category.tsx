@@ -1,27 +1,37 @@
 "use client"
 
 import React from 'react'
+import { GiElectric } from "react-icons/gi";
+import { FaLaptop } from "react-icons/fa";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { PiStudentDuotone } from "react-icons/pi";
+
 
 const categoryList= [
     {
-        name:"Electornic"
+        name:"Electornic",
+        icon: GiElectric 
     },
     {
-        name:"Laptop"
+        name:"Laptop",
+        icon: FaLaptop 
     },
     {
-        name:"Telefon"
+        name:"Telefon",
+        icon: BsFillTelephoneFill
     },
     {
-        name:"Computer"
+        name:"Computer",
+        icon: FaLaptop 
     },
     {
-        name:"Home"
+        name:"Home",
+        icon: GiElectric 
     },
     {
-        name:"Students"
-    },
-
+        name:"Students",
+        icon: PiStudentDuotone
+    }
 ]
 
 const Category = () => {
