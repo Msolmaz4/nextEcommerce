@@ -11,6 +11,8 @@ import { PiStudentDuotone } from "react-icons/pi";
 import Choice from "../general/Choice";
 import Button from "../general/Button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import {
   getStorage,
   ref,
@@ -18,6 +20,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "@/libs/firebase";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const categoryList = [
   {
@@ -47,8 +51,15 @@ const categoryList = [
 ];
 const CreateForm = () => {
   const [img, setImg] = useState<File | null>(null);
-  const [uploadImg,setUploadImg] = useState<String | null>()
+  const [uploadImg, setUploadImg] = useState<string>(""); 
+  const router = useRouter()
 
+ const imgFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImg(e.target.files[0]);
+    }
+  };
+  //console.log("img",img)
   const {
     register,
     handleSubmit,
@@ -100,19 +111,31 @@ const CreateForm = () => {
                 console.log("File available at", downloadURL);
                // uploadImg :downloadURL
                setUploadImg(downloadURL)
+               resolve()
               });
-              resolve()
+              
             }
           );
         });
       } catch (error) {
-        
+        console.log(error);
       }
     };
     await handleChange();
     //onsbmitt;le datayi almistim amam image yokyu bud ahakkettik sonra 
     let newData = {...data,image:uploadImg}
     console.log(newData,"newDATTTTTTTT")
+   await axios.post("/api/products",newData)
+   .then(()=>{
+    toast.success("product  added successfully")
+    router.refresh()
+    router.push("/")
+    
+   }).catch((err)=>console.log(err))
+
+
+
+    
   };
   
   const category = watch("category");
@@ -123,12 +146,7 @@ const CreateForm = () => {
       shouldValidate: true,
     });
   };
-  const imgFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setImg(e.target.files[0]);
-    }
-  };
-  //console.log("img",img)
+ 
   return (
     <div>
       <Heading text="CREATE PRODUCTS" center />

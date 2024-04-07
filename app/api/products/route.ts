@@ -12,14 +12,14 @@ export async function POST(request:Request) {
     const  body =  await request.json()
     const {name,description,brand,category,price,inStock,image} = body
 
+   console.log(name,image,"comsolfapost product")
 
-
-    const user = await prisma.product.create({
+    const product = await prisma.product.create({
         data:{
             name,description,brand,category,price : parseFloat(price) // number cevirmek icin
             ,inStock,image
         
         }
     })
-    return NextResponse.json(user)
+    return NextResponse.json(product)
 }
