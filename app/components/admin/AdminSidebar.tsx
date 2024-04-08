@@ -21,6 +21,11 @@ const AdminSidebar = () => {
       url: "/admin/create",
     },
     {
+      name: "Manager",
+      icon:MdProductionQuantityLimits,
+      url: "/admin/manage",
+    },
+    {
       name: "Ordner",
       icon: MdOutlineBorderColor,
       url: "/admin/order",
