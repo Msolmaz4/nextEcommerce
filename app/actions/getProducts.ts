@@ -9,6 +9,8 @@ export interface Iproduct {
 export default async function getProduct(params:Iproduct) {
     try {
         const {category,search}= params;
+        console.log(category,"categorygetProduct")
+        console.log(search,"getProduct paramas olan yer")
         let searchString = search
         if(!search){
             searchString= "" 

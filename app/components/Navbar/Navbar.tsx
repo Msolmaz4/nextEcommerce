@@ -12,7 +12,7 @@ const Navbar =  async () => {
     <div className='flex items-center justify-between gap-3 md:gap-10 px-3 md:px-10 h-16 bg-orange-400 '>
         <Logo/>
         <Search/>
-        <CardCount/>
+        <CardCount  currentUser = {currentUser}/>
         <User currentUser = {currentUser}/>
         <HamburgerMenu/>
     </div>

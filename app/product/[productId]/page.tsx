@@ -9,9 +9,9 @@ type DetailProps = {
 const Detail = ({params} : {params:DetailProps}) => {
     console.log(params)
     const {productId} = params
-    console.log(productId)
+    //console.log(productId)
     const data = products?.find(item => item.id == productId) 
-    console.log(data)
+    //console.log(data)
   return (
     <div><Details  product={data}/></div>
   )

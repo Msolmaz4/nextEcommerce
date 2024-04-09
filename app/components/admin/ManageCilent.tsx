@@ -60,6 +60,17 @@ const ManageCilent:React.FC<ManageProps> = ({products}) => {
             )
            }
         },
+        {field: "update", 
+           headerName: "Update", 
+           width: 100,
+           renderCell: (params) => {
+            return (
+                <button  className="mx-4 text-blue-200 cursor-pointer ">
+                    update
+                </button>
+            )
+           }
+        },
     ]
 
     const handleDelete = useCallback(async (id: string, image: any) => {

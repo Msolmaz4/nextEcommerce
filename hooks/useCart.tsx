@@ -12,6 +12,7 @@ interface  CartContextProps {
     removeAll:()=>void
     addToBasketIncer:(product:CardProductProps)=>void;
     deleteBasketDes:(product:CardProductProps)=>void;
+  
 }
 
 const  CartContext = createContext<CartContextProps | null>(null)
@@ -20,8 +21,11 @@ interface Props {
     [propName:string] :any
 }
 export const CartContexProvider= (props:Props) =>{
+    const [search, setSearch] = useState<string>("");
     const [productCartQty,setProductCartQty] = useState(0)
     const [cartPrd,setCartPrd] = useState<CardProductProps[] | null>()
+    const [cater,setCat] = useState<string>("")
+    console.log(cater,"cattttttttttttttttt")
     //localstorg yukledikce sonra acilirken datayi cekiyorum
     useEffect(()=>{
         let getItem : any = localStorage.getItem("cart")
@@ -93,7 +97,7 @@ export const CartContexProvider= (props:Props) =>{
     localStorage.setItem("cart",JSON.stringify(updateCart))
    },[cartPrd])
 
-
+  console.log(search,"secartdan gelen")
 
 
     let value ={
@@ -103,7 +107,10 @@ export const CartContexProvider= (props:Props) =>{
         deleteToBasket,
         removeAll,
         addToBasketIncer,
-        deleteBasketDes
+        deleteBasketDes,
+      setSearch,
+      search,
+        cater,setCat
     }
     return (
         <CartContext.Provider value={value} {...props}></CartContext.Provider>
