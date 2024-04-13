@@ -13,7 +13,8 @@ const {cartPrd,deleteToBasket,removeAll,addToBasketIncer,deleteBasketDes} = UseC
 if(!cartPrd || cartPrd.length == 0 ){
   return <div> Leider is t leer</div>
 }
-let totalPrice = cartPrd?.reduce((acc:any,item:CardProductProps) =>acc+item.quantity*item.price ,0 )
+let totalPrice = cartPrd?.reduce((acc:any,item:CardProductProps) =>acc + (item.quantity && item.price ? item.quantity * item.price : 0) ,0 )
+
   return (
     <div className='my-3 md:my-10'>
 

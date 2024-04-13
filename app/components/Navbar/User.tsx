@@ -29,6 +29,10 @@ const User:React.FC<UserProps> = ({currentUser}) => {
       setOpen(false)
       router.push("/admin")
     }
+    else if(text=="profile"){
+      setOpen(false)
+      router.push("/profile")
+    }
    
   }
   return (
@@ -42,7 +46,7 @@ const User:React.FC<UserProps> = ({currentUser}) => {
             {
               currentUser ? (
                 <div>
-                  <div className='text-slate-600' onClick={()=>menuFunc("admin")}>Admin</div>
+                 {currentUser?.role == "ADMIN" ? <div className='text-slate-600' onClick={()=>menuFunc("admin")}>Admin</div> : <div className='text-slate-600' onClick={()=>menuFunc("profile")}> Profile </div> } 
                   <div className='text-slate-600' onClick={()=>menuFunc("logout")}>Logout</div>
                 </div>
               ):(
