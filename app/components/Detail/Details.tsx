@@ -13,7 +13,7 @@ export type CardProductProps = {
   description?: string;
   price?: number ;
   imageSrc?: string;
-  quantity?: number;
+  quantity: number;
   image?: string;
   stock?: number;
 };
@@ -43,7 +43,7 @@ const [dispaly,setDispaly] = useState(false)
   const increaseFunc = () => {
     setCardProduct((prevProd) => ({
       ...prevProd,
-      quantity: prevProd.quantity + 1,
+      quantity: prevProd.quantity  + 1,
     }));
   };
   const decreaseFun = () => {
