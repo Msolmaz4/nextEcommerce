@@ -14,6 +14,7 @@ interface  CartContextProps {
     deleteBasketDes:(product:CardProductProps)=>void;
     search: string; // bu satırı ekleyin
     setSearch: (search: string) => void; // bu satırı ekleyin
+    setCat: (cat: string) => void;
 }
 
 const  CartContext = createContext<CartContextProps | null>(null)

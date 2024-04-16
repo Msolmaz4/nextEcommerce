@@ -45,7 +45,7 @@ const handleCategoryClick = (categoryName: string) => {
     setSelectedCategory(prev => prev === categoryName ? null : categoryName)
    if(selectedCategory){ 
     console.log("renk giiti")
-    setCat(null)}
+    setCat("")}
   
 
    
