@@ -11,6 +11,7 @@ import getProduct from "@/app/actions/getProducts";
 const Product = () => {
   const [product, setProducts] = useState(null);
   const {search} = UseCart()
+  
 
  
 
@@ -24,7 +25,7 @@ const Product = () => {
     try {
       console.log("useefcetcakisyor")
       
-      const product = await getProduct({category,search});
+      const product = await getProduct({category:"",search});
       setProducts(product);
 
     } catch (error) {

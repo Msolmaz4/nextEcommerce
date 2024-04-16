@@ -46,7 +46,7 @@ export default async function getProduct(params:Iproduct) {
                 }
             }
         })
-
+            console.log(products,"getproductACTIONS")
         return products
     } catch (error : any) {
         throw new Error(error)
