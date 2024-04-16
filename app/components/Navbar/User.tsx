@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useState } from 'react'
-import {User} from "@prisma/client"
+import { User as PrismaUser } from '@prisma/client';
+
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 interface UserProps {
-  currentUser :User |null |undefined
+  currentUser: PrismaUser | null | undefined;
 }
+
 const User:React.FC<UserProps> = ({currentUser}) => {
   console.log("currentUser",currentUser)
   const [open,setOpen] = useState(false);
