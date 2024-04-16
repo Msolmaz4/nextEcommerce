@@ -12,7 +12,8 @@ interface  CartContextProps {
     removeAll:()=>void
     addToBasketIncer:(product:CardProductProps)=>void;
     deleteBasketDes:(product:CardProductProps)=>void;
-  
+    search: string; // bu satırı ekleyin
+    setSearch: (search: string) => void; // bu satırı ekleyin
 }
 
 const  CartContext = createContext<CartContextProps | null>(null)
