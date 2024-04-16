@@ -23,12 +23,10 @@ export async function getCurrentUser(){
 
         return {
             ...currentUser,
-            //prisma user bakarak cekebiliry
-            createdAt:currentUser.createdAt.toISOString(),
-            updatedAt:currentUser.updateAt.toISOString(),
-            emailVerified:currentUser.emailVerified?.toISOString()
+            createdAt: new Date(currentUser.createdAt),
+            updatedAt: new Date(currentUser.updateAt),
+            emailVerified: currentUser.emailVerified ? new Date(currentUser.emailVerified) : null
         }
-//sonra navbar cagirabil bakalim
     } catch (error) {
         return null
     }
