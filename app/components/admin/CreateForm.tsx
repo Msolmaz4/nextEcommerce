@@ -84,39 +84,76 @@ const CreateForm = () => {
       try {
         const storage = getStorage(app);
         const storageRef = ref(storage, "images/next.jpg");
-        const uploadTask = uploadBytesResumable(storageRef, img);
-        await new Promise<void>((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              //burasu yukle,edei durum unu gosterir
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log("Upload is " + progress + "% done");
-              switch (snapshot.state) {
-                case "paused":
-                  console.log("Upload is paused");
-                  break;
-                case "running":
-                  console.log("Upload is running");
-                  break;
+        const uploadTask = img && uploadBytesResumable(storageRef, img);
+        if(uploadTask) {
+          await new Promise<void>((resolve, reject) => {
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                //burasu yukle,edei durum unu gosterir
+                const progress =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+                switch (snapshot.state) {
+                  case "paused":
+                    console.log("Upload is paused");
+                    break;
+                  case "running":
+                    console.log("Upload is running");
+                    break;
+                }
+              },
+              (error) => {
+                reject(error);
+              },
+              () => {
+                //bueasida basarili olma durumu
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                  console.log("File available at", downloadURL);
+                 // uploadImg :downloadURL
+                 setUploadImg(downloadURL)
+                 resolve()
+                });
+                
               }
-            },
-            (error) => {
-              reject(error);
-            },
-            () => {
-              //bueasida basarili olma durumu
-              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                console.log("File available at", downloadURL);
-               // uploadImg :downloadURL
-               setUploadImg(downloadURL)
-               resolve()
-              });
+            );
+          });
+        }
+        
+
+
+        // await new Promise<void>((resolve, reject) => {
+        //   uploadTask.on(
+        //     "state_changed",
+        //     (snapshot) => {
+        //       //burasu yukle,edei durum unu gosterir
+        //       const progress =
+        //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //       console.log("Upload is " + progress + "% done");
+        //       switch (snapshot.state) {
+        //         case "paused":
+        //           console.log("Upload is paused");
+        //           break;
+        //         case "running":
+        //           console.log("Upload is running");
+        //           break;
+        //       }
+        //     },
+        //     (error) => {
+        //       reject(error);
+        //     },
+        //     () => {
+        //       //bueasida basarili olma durumu
+        //       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        //         console.log("File available at", downloadURL);
+        //        // uploadImg :downloadURL
+        //        setUploadImg(downloadURL)
+        //        resolve()
+        //       });
               
-            }
-          );
-        });
+        //     }
+        //   );
+        // });
       } catch (error) {
         console.log(error);
       }
